@@ -44,7 +44,6 @@ public class Home {
 	public String getModel() {
 		return driver.findElement(model).getText();
 	}
-	
 	public void clickSearch(){
 		driver.findElement(searchBTN).click();
 	}

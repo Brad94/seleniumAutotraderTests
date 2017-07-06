@@ -45,7 +45,6 @@ public class App
 		homePage = new Home(driver);
 		test.log(LogStatus.INFO, "Browser started");
 	}
-		
 	@Test(priority = 1, enabled = true)
 	public void testTitle() {
 		String homePageTitle = homePage.getTitle();
@@ -55,13 +54,11 @@ public class App
 			test.log(LogStatus.FAIL, "Verify home page title");
 		}
 	}
-	
 	@Test(priority = 2, enabled = true)
 	public void testCarSearchMake() {
 		homePage.selectMake();
 		String makeText = homePage.getMake();
-		System.out.println(makeText);
-		if (makeText.equals("Tesla)")) {
+		if (makeText.contains("Tesla")) {
 			test.log(LogStatus.PASS, "verify make input");
 		} else {
 			test.log(LogStatus.FAIL, "verify make input");
@@ -71,13 +68,12 @@ public class App
 	public void testCarSearchModel() {
 		homePage.selectModel();
 		String modelText = homePage.getModel();
-		if (modelText.contains("MODEL X")) {
+		if (modelText.contains("Model X")) {
 			test.log(LogStatus.PASS, "verify model input");
 		} else {
 			test.log(LogStatus.FAIL, "verify model input");
 		}
 	}
-	
 	@Test(priority = 4, enabled = true)
 	public void testCarPostcode() {
 
@@ -94,8 +90,6 @@ public class App
 		report.flush();
 		tearDown();	
 	}
-	
-	
 	public void tearDown() {
 		try {
 			driver.close();
