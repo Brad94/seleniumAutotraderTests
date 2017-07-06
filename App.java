@@ -34,8 +34,8 @@ public class App
 		report = new ExtentReports(
 				"C:\\Users\\BjPol\\Documents\\Eclipse\\autotrader\\automationreport.html",true);
 		test = report.startTest("Autotrader tests");
-		System.setProperty("webdriver.chrome.driver","C:\\Users\\BjPol\\Documents\\Eclipse\\Moodle\\SeleniumFiles\\Selenium\\chromedriver.exe");
-		//System.setProperty("webdriver.gecko.driver","C:\\Users\\BjPol\\Documents\\Eclipse\\Moodle\\SeleniumFiles\\Selenium\\geckodriver.exe");
+		System.setProperty("webdriver.chrome.driver","C:\\Users\\BjPol\\Documents\\Eclipse\\autotrader\\SeleniumFiles\\Selenium\\chromedriver.exe");
+		//System.setProperty("webdriver.gecko.driver","C:\\Users\\BjPol\\Documents\\Eclipse\\autotrader\\SeleniumFiles\\Selenium\\geckodriver.exe");
 		
 		driver = new ChromeDriver();
 		//driver = new FirefoxDriver();
