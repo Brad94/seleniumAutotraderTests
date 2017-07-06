@@ -34,9 +34,12 @@ public class App
 		report = new ExtentReports(
 				"C:\\Users\\BjPol\\Documents\\Eclipse\\autotrader\\automationreport.html",true);
 		test = report.startTest("Autotrader tests");
-		System.setProperty("webdriver.chrome.driver",
-				"C:\\Users\\BjPol\\Documents\\Eclipse\\Moodle\\SeleniumFiles\\Selenium\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver","C:\\Users\\BjPol\\Documents\\Eclipse\\Moodle\\SeleniumFiles\\Selenium\\chromedriver.exe");
+		//System.setProperty("webdriver.gecko.driver","C:\\Users\\BjPol\\Documents\\Eclipse\\Moodle\\SeleniumFiles\\Selenium\\geckodriver.exe");
+		
 		driver = new ChromeDriver();
+		//driver = new FirefoxDriver();
+		
 		driver.get("http://www.autotrader.co.uk/");
 
 		homePage = new Home(driver);
@@ -51,24 +54,48 @@ public class App
 		} else {
 			test.log(LogStatus.FAIL, "Verify home page title");
 		}
-//		report.endTest(test);
-//		report.flush();
-//		tearDown();	
 	}
 	
 	@Test(priority = 2, enabled = true)
-	public void testCarSearch() {
+	public void testCarSearchMake() {
+		homePage.selectMake();
+		String makeText = homePage.getMake();
+		System.out.println(makeText);
+		if (makeText.equals("Tesla)")) {
+			test.log(LogStatus.PASS, "verify make input");
+		} else {
+			test.log(LogStatus.FAIL, "verify make input");
+		}
+	}
+	@Test(priority = 3, enabled = true)
+	public void testCarSearchModel() {
+		homePage.selectModel();
+		String modelText = homePage.getModel();
+		if (modelText.contains("MODEL X")) {
+			test.log(LogStatus.PASS, "verify model input");
+		} else {
+			test.log(LogStatus.FAIL, "verify model input");
+		}
+	}
+	
+	@Test(priority = 4, enabled = true)
+	public void testCarPostcode() {
+
 		homePage.getPostcodeInput("PO5 4AY");
-		String emailInputText = homePage.getPostcodeTextBoxText();
-		if (emailInputText.equals("PO5 4AY")) {
+		String postcodeInputText = homePage.getPostcodeTextBoxText();
+		if (postcodeInputText.equals("PO5 4AY")) {
 			test.log(LogStatus.PASS, "Verify postcode input");
 		} else {
 			test.log(LogStatus.FAIL, "Verify postcode input");
 		}
+		homePage.clickSearch();
+		
 		report.endTest(test);
 		report.flush();
 		tearDown();	
 	}
+	
+	
 	public void tearDown() {
 		try {
 			driver.close();
