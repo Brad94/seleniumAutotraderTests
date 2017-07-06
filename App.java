@@ -2,6 +2,7 @@ package autotrader.tests;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,7 +12,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -30,7 +33,7 @@ public class App
 	Home homePage;
 	
 	@BeforeClass()
-	public void setup(){
+	public void setup(){   
 		report = new ExtentReports(
 				"C:\\Users\\BjPol\\Documents\\Eclipse\\autotrader\\automationreport.html",true);
 		test = report.startTest("Autotrader tests");
@@ -44,6 +47,7 @@ public class App
 
 		homePage = new Home(driver);
 		test.log(LogStatus.INFO, "Browser started");
+
 	}
 	@Test(priority = 1, enabled = true)
 	public void testTitle() {
@@ -54,7 +58,17 @@ public class App
 			test.log(LogStatus.FAIL, "Verify home page title");
 		}
 	}
-	@Test(priority = 2, enabled = true)
+	@Test(priority = 1, enabled = true)
+	public void testCarSearchRadius() {
+		homePage.selectRadius();
+		String radiusText = homePage.getRadius();
+		if (radiusText.contains("Within 100 miles")) {
+			test.log(LogStatus.PASS, "verify radius input");
+		} else {
+			test.log(LogStatus.FAIL, "verify radius input");
+		}
+	}
+	@Test(priority = 3, enabled = true)
 	public void testCarSearchMake() {
 		homePage.selectMake();
 		String makeText = homePage.getMake();
@@ -64,7 +78,7 @@ public class App
 			test.log(LogStatus.FAIL, "verify make input");
 		}
 	}
-	@Test(priority = 3, enabled = true)
+	@Test(priority = 4, enabled = true)
 	public void testCarSearchModel() {
 		homePage.selectModel();
 		String modelText = homePage.getModel();
@@ -74,9 +88,18 @@ public class App
 			test.log(LogStatus.FAIL, "verify model input");
 		}
 	}
-	@Test(priority = 4, enabled = true)
+	@Test(priority = 5, enabled = true)
+	public void testCarSearchMaxPrice() {
+		homePage.selectMaxPrice();
+		String priceText = homePage.getMaxPrice();
+		if (priceText.contains("To £100,000")) {
+			test.log(LogStatus.PASS, "verify max price input");
+		} else {
+			test.log(LogStatus.FAIL, "verify max price input");
+		}
+	}
+	@Test(priority = 6, enabled = true)
 	public void testCarPostcode() {
-
 		homePage.getPostcodeInput("PO5 4AY");
 		String postcodeInputText = homePage.getPostcodeTextBoxText();
 		if (postcodeInputText.equals("PO5 4AY")) {
@@ -88,7 +111,8 @@ public class App
 		
 		report.endTest(test);
 		report.flush();
-		tearDown();	
+		tearDown();
+		test.log(LogStatus.INFO, "Browser closed");
 	}
 	public void tearDown() {
 		try {
