@@ -1,22 +1,11 @@
 package autotrader.tests;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -70,22 +59,30 @@ public class App
 	}
 	@Test(priority = 3, enabled = true)
 	public void testCarSearchMake() {
-		homePage.selectMake();
-		String makeText = homePage.getMake();
-		if (makeText.contains("Tesla")) {
-			test.log(LogStatus.PASS, "verify make input");
-		} else {
-			test.log(LogStatus.FAIL, "verify make input");
+		try{
+			homePage.selectMake();
+			String makeText = homePage.getMake();
+			if (makeText.contains("Tesla")) {
+				test.log(LogStatus.PASS, "verify make input");
+			} else {
+				test.log(LogStatus.FAIL, "verify make input");
+			}
+		}catch(NoSuchElementException x){
+			System.out.println("That make of car might not exist");
 		}
 	}
 	@Test(priority = 4, enabled = true)
 	public void testCarSearchModel() {
-		homePage.selectModel();
-		String modelText = homePage.getModel();
-		if (modelText.contains("Model X")) {
-			test.log(LogStatus.PASS, "verify model input");
-		} else {
-			test.log(LogStatus.FAIL, "verify model input");
+		try{
+			homePage.selectModel();
+			String modelText = homePage.getModel();
+			if (modelText.contains("Model X")) {
+				test.log(LogStatus.PASS, "verify model input");
+			} else {
+				test.log(LogStatus.FAIL, "verify model input");
+			}
+		}catch(NoSuchElementException x){
+			System.out.println("That model of car might not exist");
 		}
 	}
 	@Test(priority = 5, enabled = true)
@@ -109,10 +106,11 @@ public class App
 		}
 		homePage.clickSearch();
 		
+		test.log(LogStatus.INFO, "Browser closed");
 		report.endTest(test);
 		report.flush();
 		tearDown();
-		test.log(LogStatus.INFO, "Browser closed");
+
 	}
 	public void tearDown() {
 		try {
